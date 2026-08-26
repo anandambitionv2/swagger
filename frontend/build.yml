@@ -44,7 +44,9 @@ jobs:
       - script: |
           echo "Building Docker image..."
           
-          docker build -f $(dockerFilePath) -t ${{ parameters.acrname }}.azurecr.io/$(imageName):$(tag) $(buildContext)
+          
+          docker buildx build --platform linux/arm64 --push -f $(dockerFilePath) -t ${{ parameters.acrname }}.azurecr.io/$(imageName):$(tag) $(buildContext)
+
         displayName: 'Build Docker Image'
 
       - script: docker images
