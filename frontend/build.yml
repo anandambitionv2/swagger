@@ -41,6 +41,15 @@ jobs:
           inlineScript: |
             az acr login --name ${{ parameters.acrname }}
 
+      - task: Bash@3
+        displayName: 'Set up QEMU Emulation for Arm64'
+        inputs:
+            targetType: 'inline'
+            script: |
+              # Installs the emulation layers so x64 runners can build Arm64 images
+              docker run --privileged --rm tonistiigi/binfmt --install all
+
+
       - script: |
           echo "Building Docker image..."
           
